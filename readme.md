@@ -20,7 +20,7 @@ Some technologies of note auto configured by Spring boot:
 
 The application uses [HAL](http://stateless.co/hal_specification.html) as the primary representation format.
 
-### REST services
+### REST services & cURL commands
 examples below assume a server at localhost:8080
 #### Get all companies  
 ```
