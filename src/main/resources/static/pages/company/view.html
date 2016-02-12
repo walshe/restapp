@@ -1,0 +1,51 @@
+<div ng-include="'pages/_message.html'"></div>
+<br/>
+<table class="table longtext">
+	<caption class="text-left"><b>Company Information</b></caption>
+    <tr>
+        <td>Name</td>
+        <td>{{company.name}}</td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td>{{company.address}}</td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td>{{company.city}}</td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td>{{company.country}}</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>{{company.email}}</td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td>{{company.phoneNumber}}</td>
+    </tr>
+    
+</table>
+
+<table class="table">
+	<caption class="text-left"><b>Company Owners</b></caption>
+	<tr ng-repeat="owner in owners._embedded.owners">
+        <td>{{owner.firstName}} {{owner.lastName}}</td>
+        <td>
+        	<a class="btn btn-primary btn-xs"  ng-click="editOwner(owner._links.self.href)">Edit Owner</a>
+            <a class="btn btn-danger btn-xs"  ng-click="deleteOwner(owner._links.self.href)">Delete Owner</a>
+        </td>
+    </tr>
+    <tr>
+    	<td><a class="btn btn-primary btn-xs"  ng-click="addNewOwner(company._links.self.href)">Add Owner to company</a></td>
+    </tr>
+</table>
+
+<br/>
+<div>
+    <a class="btn btn-primary" ng-click="editCompany(company._links.self.href)">Edit Company</a>
+    <a class="btn btn-danger" ng-click="deleteCompany(company._links.self.href)">Delete Company</a>
+    <a href="/" class="btn btn-default">Home</a>
+</div>

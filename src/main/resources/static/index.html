@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<title>Restpp</title>
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+<style type="text/css">
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+	
+}
+</style>
+</head>
+
+<body ng-app="restApp">
+	<div class="container-fluid">
+		
+		<span><h1>Rest App</h1><a href="/">Home</a></span>
+		<br/><br/>
+		<div ng-view ng-cloak class="ng-cloak">
+		</div>
+		
+	</div>
+	<!-- load angular via CDN -->
+	<script src="//code.angularjs.org/1.3.0-rc.2/angular.min.js"></script>
+	<script src="//code.angularjs.org/1.3.0-rc.2/angular-route.min.js"></script>
+	<script src="//code.angularjs.org/1.3.0-rc.2/angular-resource.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/routes.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+</body>
+</html>

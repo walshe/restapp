@@ -1,0 +1,28 @@
+
+<table class="table table-striped">
+	<caption class="text-left"><h3>
+				Companies&nbsp<a class="btn btn-primary" ng-click="createCompany()">Create
+					new Company</a>
+			</h3></caption>
+	<thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            
+        </tr>
+    </thead>
+	<tr ng-repeat="company in companies._embedded.companies">
+		<td>{{company.name}}</td>
+		<td>{{company.address}}</td>
+		<td>{{company.city}}</td>
+		<td><a class="btn btn-primary"
+			ng-click="viewCompany(company._links.self.href)">View</a>
+		<a class="btn btn-primary"
+			ng-click="editCompany(company._links.self.href)">Edit</a>
+		<a class="btn btn-primary"
+			ng-click="addOwner(company._links.self.href)">Add Owner</a>
+		<a class="btn btn-danger"
+			ng-click="deleteCompany(company._links.self.href)">Delete</a></td>
+	</tr>
+</table>

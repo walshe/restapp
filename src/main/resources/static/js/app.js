@@ -1,0 +1,1 @@
+var restApp = angular.module('restApp', ['ngRoute', 'ngResource']);
