@@ -2,6 +2,10 @@
 #Restapp
 Restapp is a simple single page application (SPA) which communicates with a RESTful backend.
 
+
+The applications demonstrates a trivial Company-Owner relationship.
+Dut to time constraints, in this implementation, owners exist inside Companies - a user can only exist in one company. Furthermore a user cannot exist on its own right now.
+
 Spring Boot has been used to develop the restful backend. 
 AngularJs has been used to develop the single page application. (The spring boot application is also used to serve up the angular app.)
 
@@ -478,17 +482,31 @@ The front end also uses Twitter Bootstrap - "he most popular HTML, CSS, and JS f
 
 
 ## Considerations
-### You do not need to add authentication to your web service, but propose a protocol / method and
-justify your choice.
-- a simple 'roll you own' token based authentication
-- oauth2
-- jwt?
+### You do not need to add authentication to your web service, but propose a protocol / method and justify your choice?
+
+I would propose a stateless token based authentication solution.
+
+A token based implementation avoid the complexities of traditional server session approaches where sessions needed to either be replicated across a cluster of servers or 'sticky' sessions had to be used.
+In a token based approach, there is no state held on the server, thus adding more server instances within a load balanced scenario becomes a lot less complex. 
+
+Briefly - in a token based approach a client initially provides a username/password to the server, the server authenticates the user, and then issues the client with a unique token (can be expirable) that will be used in the header for all subsequent calls from client to server for to secured resources. Inside the server this token is mapped to a application user and usually held in a db table or fast key/value store/cache.
+
+Depending on the application, one could implement a custom/simple token based authentication system or use an industry standard solution like OAuth2.
+
+OAuth2 allows lots of options including the ability to authenticate via a third party authorization server like Facebook/Google/Twitter etc.
+OAuth2 also allows the separation of an Authorization server and Resource server(s) thus allowing a common/central approach going forward for new applications within an organization. 
+
+
  
 
 ### How can you make the service redundant? What considerations should you do?
-Load balanced autoscaled monolith arch on AWS
-Microservices based approach with Eureka, Zuul, Ribbon, config
 
-considerations - sessions, queues, jobs
+If we have a stateless approach with a token based authentication solution as mentioned previously then it is relatively easily to load balance multiple instances of the deployed application. With Amazon AWS Elastic Beanstalk for example, one can choose a load balancing configuration which automatically 'spins' up new instances of a server in the case of certain scenarios and/or thresholds being met - e.g if a server becomes unavailable or its CPU usage goes above a certain level.  The load balancer generally routes requests to different servers in the group in a round robin approach.
 
+There are many other considerations when scaling an application for example one might scale the application across different world regions in the case of one region being down or oo far from the end user.  One also has to think about also scaling/replicating any persistent stores (e.g. databases) in these situations. 
+
+Similarly there are things to think about in terms of message brokers/queues etc and scheduled jobs (e.g. one doesn't want the same job running on all instances of a server). In many cases IaaS services like Amazon AWS provide solutions for dealing with these problems. 
+
+What considerations we have also depends on the design architecture. e.g. Do we have a monolithic application that deals with everything in one deployment or do we have a Microservices architecture. Whether one uses a monolithic or microservice architecture depends on the situation at hand.
+In a microservice architecture we also have to make sure all components are 'up, configured correctly etc. Spring/Netflix have a lot of libraries to help with this e.g  Eureka (a registry for each service), Cloud Config and Cloud bus (for centralized and updateable configuration for all services) , Zuul (a common gateway to all the services) and Ribbon (for client side load balancing).
  
