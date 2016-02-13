@@ -41,14 +41,18 @@ public class RestappApplication extends SpringBootServletInitializer{
 	 */
 	@PostConstruct
 	public void init() {
+		createTestData();
+	}
+	
+	private void createTestData(){
 		for(int i=0;i<3;i++){
-		
+			
 			Owner owner = new Owner("Bill"+i, "Gates"+i);
 		
 			Company company = new Company("Microsoft "+i, "One Microsoft Way", "Redmond", "USA", "info@microsoft.com",
 					"(425) 703-6214"+i, new HashSet<Owner>(Arrays.asList(owner)));
 			companyDao.save(company);
 		}
-		
 	}
+	
 }

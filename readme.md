@@ -169,6 +169,8 @@ Connection: close
 }
 ```
 
+The Angualr front end currently uses html5 client side validation on various fields.
+
 
 #### Update a company
 ```
@@ -475,7 +477,18 @@ The front end also uses Twitter Bootstrap - "he most popular HTML, CSS, and JS f
 
 
 
+## Considerations
+### You do not need to add authentication to your web service, but propose a protocol / method and
+justify your choice.
+- a simple 'roll you own' token based authentication
+- oauth2
+- jwt?
+ 
 
+### How can you make the service redundant? What considerations should you do?
+Load balanced autoscaled monolith arch on AWS
+Microservices based approach with Eureka, Zuul, Ribbon, config
 
+considerations - sessions, queues, jobs
 
  
