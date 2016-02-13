@@ -4,7 +4,7 @@ Restapp is a simple single page application (SPA) which communicates with a REST
 
 
 The applications demonstrates a trivial Company-Owner relationship.
-Dut to time constraints, in this implementation, owners exist inside Companies - a user can only exist in one company. Furthermore a user cannot exist on its own right now.
+Due to time constraints, in this implementation, an owner can only be associated with one company. i.e. It is not a many-to-many relationship. Futhermore (in the interface anyway), an owner cannot be created before a Company is created .
 
 Spring Boot has been used to develop the restful backend. 
 AngularJs has been used to develop the single page application. (The spring boot application is also used to serve up the angular app.)
