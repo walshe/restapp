@@ -23,7 +23,7 @@ public class Owner implements Serializable {
 	private String lastName;
 	
 	@ManyToOne
-	@JoinColumn(name="company_id", nullable=false)
+	@JoinColumn(name="company_id", nullable=true)
 	private Company company;
 
 	public Owner() {

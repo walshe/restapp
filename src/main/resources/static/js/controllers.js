@@ -10,7 +10,7 @@ restApp.controller('homeController',['$scope','$resource','$location','$window',
     $scope.companies = $scope.companiesListApi.get(function(data){
 	
 	}, function(data){
-		alert('error');
+		alert('error getting company list');
 	});
     
     $scope.createCompany = function(uri){
@@ -18,17 +18,17 @@ restApp.controller('homeController',['$scope','$resource','$location','$window',
     }
     
     $scope.viewCompany = function(uri){
-    	$location.search('uri',uri);
+    	$location.search('companyUri',uri);
     	$location.path("/viewCompany/");
     }
     
     $scope.editCompany = function(uri){
-		$location.search("uri",uri);
+    	$location.search('companyUri',uri);
 		$location.path("/editCompany/");
 	}
     
     $scope.addOwner = function(uri){
-		$location.search("uri",uri);
+    	$location.search('companyUri',uri);
 		$location.path("/createOwner/");
 	}
     
@@ -45,7 +45,7 @@ restApp.controller('homeController',['$scope','$resource','$location','$window',
 	    		$route.reload();
 				
 			}, function(data){
-				alert('error');
+				alert('error deleting company');
 			});
 	    }
 		
@@ -62,7 +62,7 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
     
 	$scope.flash = flash;
 	
-	$scope.companyApi =  $resource($location.search().uri, {}, {get:{}});
+	$scope.companyApi =  $resource($location.search().companyUri, {}, {get:{}});
 	
 	if($location.search().ownerJustDeleted){
 		$location.search('ownerJustDeleted',null)
@@ -84,7 +84,7 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
 				$scope.ownersApi =  $resource(data._links.owners.href, {}, {get:{}});
 				$scope.owners =  $scope.ownersApi.get();
 		}, function(data){
-			alert("error");
+			alert("error getting company");
 		}
 		);
 	
@@ -92,8 +92,7 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
 	
 	
 	$scope.editCompany = function(uri){
-		
-		$location.search("uri",uri);
+		$location.search('companyUri',uri);
 		$location.path("/editCompany/");
 		
 	}
@@ -110,7 +109,7 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
 	    		$location.path("/");
 				
 			}, function(data){
-				alert('error');
+				alert('error deleting company');
 			});
 	    }
 	    
@@ -132,7 +131,7 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
 				$location.path("/viewCompany/");
 				
 			}, function(data){
-				alert('error');
+				alert('error deleting owner');
 			});
 		}
 		
@@ -141,13 +140,12 @@ restApp.controller('viewCompanyController',['$scope','$resource','$location','$w
 	
 	$scope.editOwner = function(uri){
 		
-		$location.search("uri",uri);
+		$location.search("ownerUri",uri);
 		$location.path("/editOwner");
 	}
 	
 	$scope.addNewOwner = function(companyUri){
-		
-		$location.search("uri",companyUri)
+		$location.search('companyUri',$location.search().companyUri);
 		$location.path("/createOwner");
 		
 	}
@@ -175,7 +173,7 @@ restApp.controller('createCompanyController',['$scope','$resource','$location','
 			$location.path("/");
 			
 		}, function(data){
-			alert('error');
+			alert('error saving company');
 		});
 		
 		
@@ -191,12 +189,12 @@ restApp.controller('createCompanyController',['$scope','$resource','$location','
 restApp.controller('editCompanyController',['$scope','$resource','$location','flash', function($scope,  $resource, $location, flash){
 	$scope.flash = flash;	
 	
-	$scope.companyApi =  $resource($location.search().uri, {}, {get:{}});
+	$scope.companyApi =  $resource($location.search().companyUri, {}, {get:{}});
 	
 	$scope.company =  $scope.companyApi.get();
 	
 	$scope.updateCompany = function(){
-		var updateCompanyApi =  $resource($location.search().uri,{}, {"save":{method:"PUT"}});
+		var updateCompanyApi =  $resource($location.search().companyUri,{}, {"save":{method:"PUT"}});
 		
 		updateCompanyApi.save( $scope.company,function(data){
 			
@@ -205,7 +203,7 @@ restApp.controller('editCompanyController',['$scope','$resource','$location','fl
 			$location.path("/");
 			
 		}, function(data){
-			alert('error');
+			alert('error updating company');
 		});
 	}
 	
@@ -220,7 +218,7 @@ restApp.controller('createOwnerController',['$scope','$resource','$location','fl
 	
 	$scope.flash = flash;
 	
-	$scope.owner= {company: $location.search().uri};
+	$scope.owner= {company: $location.search().companyUri};
 	
 	$scope.saveOwner = function(){
 	
@@ -230,10 +228,10 @@ restApp.controller('createOwnerController',['$scope','$resource','$location','fl
 			
 			$location.search("ownerJustCreated", true);
 			
-			$location.search('uri',$scope.owner.company);
+			$location.search('companyUri',$location.search().companyUri);
 	    	$location.path("/viewCompany/");
 		}, function(data){
-			alert('error');
+			alert('error creating owner');
 		});
 		
 		
@@ -251,17 +249,17 @@ restApp.controller('editOwnerController',['$scope','$resource','$location','flas
 	
 	$scope.flash = flash;
 	
-	$scope.ownerApi =  $resource($location.search().uri, {}, {get:{}});
+	$scope.ownerApi =  $resource($location.search().ownerUri, {}, {get:{}});
 	
 	$scope.owner =  $scope.ownerApi.get();
 	
 	$scope.updateOwner = function(){
 	
-	var updateOwnerApi =  $resource($location.search().uri,{}, {"save":{method:"PUT"}});
+	var updateOwnerApi =  $resource($location.search().ownerUri,{}, {"save":{method:"PUT"}});
 		
 	updateOwnerApi.save( $scope.owner,function(data){
 			
-			$location.search("uri",data._links.company.href);
+			$location.search('companyUri',$location.search().companyUri);
 			$location.search("ownerJustUpdated",true);
 			$location.path("/viewCompany/");
 			
