@@ -38,6 +38,20 @@ public class CompanyDaoIntegrationTest extends AbstractIntegrationTest {
 		assertThat(result, is(Matchers.<Company> iterableWithSize(before.intValue() + 1)));
 		assertThat(result, hasItem(company));
 	}
+	
+	//@Test
+	public void createsNewCompanyValidation() {
+
+		Long before = repository.count();
+
+		Company company = createCompany();
+		company.setName(null);
+		repository.save(company);
+		
+		Iterable<Company> result = repository.findAll();
+		assertThat(result, is(Matchers.<Company> iterableWithSize(before.intValue() + 1)));
+		assertThat(result, hasItem(company));
+	}
 
 	@Test
 	public void updateCompany() {
